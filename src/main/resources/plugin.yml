@@ -1,0 +1,11 @@
+name: liteitemshow
+version: '1.0-SNAPSHOT'
+main: org.Little_100.liteitemshow.Liteitemshow
+api-version: '1.21'
+authors: [ Little_100 ]
+commands:
+  reload:
+    description: 重载文件
+    usage: /liteitemshow reload
+    permission: liteitemshow.reload
+    permission-message: 你没有权限使用该命令
