@@ -1,5 +1,13 @@
 package org.Little_100.liteitemshow;
 
+/*
+ * 亻尔女子,我是力涛意摆
+ * Hello, I am Little_100.
+ * wo shi nan niang
+ * 本插件制作的原因是https://github.com/myunco/LiteItemShow的作者无法提供1.21更新所作出来
+ * 对1.21的更新,但由于技术有限 做不到原作者那样 所以请见谅
+ */
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
