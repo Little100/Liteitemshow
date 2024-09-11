@@ -1,5 +1,5 @@
 # Liteitemshow
-- 这个插件是https://github.com/myunco/LiteItemShow的作者无法提供1.21更新所作出来
+- 这个插件是https://github.com/myunco/LiteItemShow/ 的作者无法提供1.21更新所作出来
 - 对1.21的更新,但由于技术有限 做不到原作者那样 所以请见谅
 - 用法:
   - [视频教程点我](https://www.bilibili.com/video/BV1PunZe1EKV/)
