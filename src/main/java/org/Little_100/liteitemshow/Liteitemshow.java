@@ -1,19 +1,7 @@
 package org.Little_100.liteitemshow;
 
-/*
- * 亻尔女子,我是力涛意摆
- * Hello, I am Little_100.
- * wo shi nan niang
- * 本插件制作的原因是https://github.com/myunco/LiteItemShow的作者无法提供1.21更新所作出来
- * 对1.21的更新,但由于技术有限 做不到原作者那样 所以请见谅
- */
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -30,7 +18,9 @@ public final class Liteitemshow extends JavaPlugin {
         mainConfig = getConfig();
         loadMapConfig();
 
-        // Plugin startup logic
+        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
+        getCommand("Liteitemshow").setExecutor(new ReloadCommand(this));
+
         getLogger().info("" +
                 "   __ _ _   _   _          _  ___   ___  \n" +
                 "  / /(_) |_| |_| | ___    / |/ _ \\ / _ \\ \n" +
@@ -38,15 +28,30 @@ public final class Liteitemshow extends JavaPlugin {
                 "/ /__| | |_| |_| |  __/   | | |_| | |_| |\n" +
                 "\\____/_|\\__|\\__|_|\\___|___|_|\\___/ \\___/ \n" +
                 "                     |_____|             ");
-        getServer().getPluginManager().registerEvents(new ChatListener(this), this);
     }
 
+    public void reloadAllConfigs() {
+        // 重新加载主配置文件
+        reloadConfig();
+        mainConfig = getConfig(); // 获取更新后的配置
+
+        // 重新加载map配置文件
+        loadMapConfig(); // 调用之前定义的loadMapConfig方法
+
+        getLogger().info("所有配置文件已重新加载!");
+
+        // 打印关键字或其他配置项，确保配置已更新
+        String keyword = mainConfig.getString("keyword");
+        getLogger().info("当前关键字: " + keyword);
+    }
+
+    // 加载 map.yml 配置
     private void loadMapConfig() {
         File mapFile = new File(getDataFolder(), "map.yml");
         if (!mapFile.exists()) {
-            saveResource("map.yml", false); // 从资源目录复制默认map.yml文件
+            saveResource("map.yml", false); // 如果 map.yml 不存在，保存默认文件
         }
-        mapConfig = YamlConfiguration.loadConfiguration(mapFile);
+        mapConfig = YamlConfiguration.loadConfiguration(mapFile); // 正确加载map配置文件
     }
 
     public FileConfiguration getMapConfig() {
@@ -57,6 +62,7 @@ public final class Liteitemshow extends JavaPlugin {
         return mainConfig;
     }
 
+    // 获取映射数据
     public Map<String, String> getMappings(String path) {
         Map<String, String> mappings = new HashMap<>();
         if (mapConfig.isConfigurationSection(path)) {
@@ -66,43 +72,6 @@ public final class Liteitemshow extends JavaPlugin {
         }
         return mappings;
     }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("reload")) {
-            // 如果发送者是控制台，直接允许执行
-            if (sender instanceof ConsoleCommandSender) {
-                reloadConfig();
-                loadMapConfig();
-                // 重新注册监听器
-                getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-                sender.sendMessage("配置文件已重新加载(没做好 似乎还不能重载文件(悲))。");
-                return true;
-            }
-
-            // 如果发送者是玩家，检查是否有权限
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (player.isOp() || player.hasPermission("liteitemshow.reload")) {
-                    reloadConfig();
-                    loadMapConfig();
-                    // 重新注册监听器
-                    getServer().getPluginManager().registerEvents(new ChatListener(this), this);
-                    sender.sendMessage("配置文件已重新加载(没做好 似乎还不能重载文件(悲))。");
-                    return true;
-                } else {
-                    sender.sendMessage("你没有权限执行此命令。");
-                    return false;
-                }
-            }
-
-            // 处理其他情况（比如命令发送者不是玩家或控制台）
-            sender.sendMessage("该命令只能由玩家或控制台执行。");
-            return false;
-        }
-        return false;
-    }
-
 
     @Override
     public void onDisable() {
