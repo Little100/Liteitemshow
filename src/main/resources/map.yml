@@ -63,6 +63,7 @@ item:
   "ELYTRA": "鞘翅"
   "MACE": "重锤"
   "ENCHATED_BOOK": "附魔书"
+  "TRIDENT": "三叉戟"
 
 enchant:
   #如果你要自行添加附魔对照 请按照下面的方式
