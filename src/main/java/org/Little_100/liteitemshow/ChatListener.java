@@ -18,12 +18,20 @@ import java.util.Map;
 
 public class ChatListener implements Listener {
     private final Liteitemshow plugin;
-    private final Map<String, String> itemNameMap;
-    private final Map<String, String> enchantmentNameMap;
-    private final Map<String, String> potionEffectNameMap;
+    private Map<String, String> itemNameMap;
+    private Map<String, String> enchantmentNameMap;
+    private Map<String, String> potionEffectNameMap;
 
     public ChatListener(Liteitemshow plugin) {
         this.plugin = plugin;
+        loadMappings();
+    }
+
+    public void reloadMappings() {
+        loadMappings();
+    }
+
+    private void loadMappings() {
         this.itemNameMap = plugin.getMappings("item");
         this.enchantmentNameMap = plugin.getMappings("enchant");
         this.potionEffectNameMap = plugin.getMappings("potions");
